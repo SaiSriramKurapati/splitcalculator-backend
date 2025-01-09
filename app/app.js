@@ -14,7 +14,7 @@ app.use(cors({
 
 app.use('/api/bills',billRoutes);
 
-const PORT = process.env.PORT || 80;
-app.listen(PORT, '0.0.0.0', () => {
+const PORT = process.env.PORT || 5001;
+app.listen(5001, '0.0.0.0', () => {
     console.log('Server running on port 5001');
 });
