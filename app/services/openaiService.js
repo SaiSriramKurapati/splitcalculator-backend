@@ -12,7 +12,29 @@ exports.extractItemsFromBill = async (filePath) => {
     const imageBuffer = fs.readFileSync(filePath);
     const base64Image = imageBuffer.toString('base64');
 
-    const prompt = `Extract the individual items, their prices, tax, and total from this bill image. Return the result in JSON format with fields: items,subtotal, tax, and total.`;
+    const prompt = `
+                Extract the individual items, their prices, subtotal, tax, and total from this bill image. 
+                Return the result strictly in the following JSON format:
+                {
+                "items": [
+                    {
+                    "name": "string",
+                    "price": "number"
+                    }
+                ],
+                "subtotal": "number",
+                "tax": "number",
+                "total": "number"
+                }
+
+                Ensure:
+                - Keys are always 'items', 'name', 'price', 'subtotal', 'tax', and 'total'.
+                - Values are strictly numeric where required.
+                - JSON is well-formed and valid.
+                - Return zero values or empty arrays for missing data.
+                `;
+
+
 
     try {
         const response = await openai.chat.completions.create({
@@ -35,7 +57,6 @@ exports.extractItemsFromBill = async (filePath) => {
                     ]
                 }
             ],
-            max_tokens: 500
         });
 
         const extractedText = response.choices[0].message.content;
@@ -44,7 +65,9 @@ exports.extractItemsFromBill = async (filePath) => {
              // Remove backticks and optional 'json' language hint
             const cleanResponse = extractedText.replace(/```json|```/g, '').trim();
 
-            const parsedData = JSON.parse(cleanResponse);  // Ensure the result is valid JSON
+            const parsedData = JSON.parse(cleanResponse);
+
+            
             return parsedData;
         } catch (parseError) {
             console.error("Failed to parse OpenAI response:", extractedText);
@@ -56,3 +79,6 @@ exports.extractItemsFromBill = async (filePath) => {
         throw new Error("Failed to process the bill through OpenAI.");
     }
 };
+
+
+
