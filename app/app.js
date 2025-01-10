@@ -9,12 +9,12 @@ app.use(express.json());
 
 // Allow CORS for localhost:3000 (Frontend)
 app.use(cors({
-    origin: 'http://localhost:3000'
+    origin: 'https://splitcalculator-kuo79bss5-saisrirams-projects.vercel.app/'
 }));
 
 app.use('/api/bills',billRoutes);
 
-const PORT = process.env.PORT || 80; 
+const PORT = process.env.PORT; 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log('Server running on port 5001');
+    console.log(`Server running on port ${PORT}`);
 });
