@@ -9,7 +9,7 @@ app.use(express.json());
 
 // Allow CORS for localhost:3000 (Frontend)
 app.use(cors({
-    origin: 'https://splitcalculator-kuo79bss5-saisrirams-projects.vercel.app/'
+    origin: 'https://splitcalculator-kuo79bss5-saisrirams-projects.vercel.app'
 }));
 
 app.use('/api/bills',billRoutes);
