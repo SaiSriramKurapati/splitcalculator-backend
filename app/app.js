@@ -9,8 +9,9 @@ app.use(express.json());
 
 // Allow CORS for localhost:3000 (Frontend)
 app.use(cors({
-    origin: 'https://splitcalculator.vercel.app'
+    origin: ['https://splitcalculator.vercel.app', 'http://localhost:3000']
 }));
+
 
 app.use('/api/bills',billRoutes);
 
